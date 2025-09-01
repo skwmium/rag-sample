@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rag-sample
+
+  ai:
+    ollama:
+      base-url: http://localhost:11431
+      chat:
+        model: gemma3:4b-it-q4_K_M
+
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ragdb
+    username: postgres
+    password: postgres
