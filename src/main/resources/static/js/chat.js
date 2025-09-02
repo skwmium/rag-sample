@@ -1,9 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const sendButton = document.getElementById("send-button");
     const chatInput = document.getElementById("chat-input");
     const messagesContainer = document.getElementById("messages");
 
-    sendButton.addEventListener("click", function() {
+    sendButton.addEventListener("click", function () {
         const prompt = chatInput.value;
         if (!prompt) return;
         chatInput.value = "";
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const pathParts = window.location.pathname.split("/");
         const chatId = pathParts[pathParts.length - 1];
-        const url = `/chat-stream/${chatId}?userPrompt=${encodeURIComponent(prompt)}`;
+        const url = `/chat-stream/${chatId}?prompt=${encodeURIComponent(prompt)}`;
 
         const eventSource = new EventSource(url);
         let fullText = "";
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
         aiDiv.appendChild(aiBubble);
         messagesContainer.appendChild(aiDiv);
 
-        eventSource.onmessage = function(event) {
+        eventSource.onmessage = function (event) {
             const data = JSON.parse(event.data);
             let token = data.text;
             console.log(token);
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         };
 
-        eventSource.onerror = function(e) {
+        eventSource.onerror = function (e) {
             console.error("Ошибка SSE:", e);
             eventSource.close();
         };
