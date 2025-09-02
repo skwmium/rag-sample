@@ -23,4 +23,8 @@ class ChatEntryEntity(
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     val role: Role,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "chat_id", nullable = false)
+    var chat: ChatEntity? = null,
 )
