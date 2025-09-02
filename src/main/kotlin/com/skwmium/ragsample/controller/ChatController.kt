@@ -37,4 +37,10 @@ class ChatController(
         chatService.deleteChat(chatId)
         return "redirect:/"
     }
+
+    @PostMapping("/chat/{chatId}/entry")
+    fun talkToModel(@PathVariable chatId: Long, @RequestParam prompt: String): String {
+        chatService.proceedInteraction(chatId, prompt)
+        return "redirect:/chat/$chatId"
+    }
 }

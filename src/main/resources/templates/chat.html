@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${chat != null} ? 'Borisov GPT — ' + chat.title : 'Borisov GPT'">Borisov GPT</title>
+    <title th:text="${chat != null} ? 'My GPT — ' + ${chat.title} : 'My GPT'">My GPT</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/chat.css}"/>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script defer th:src="@{/js/chat.js}"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>-->
+    <!--    <script defer th:src="@{/js/chat.js}"></script>-->
 </head>
 <body class="comic-body">
 <div class="chat-container">
@@ -13,11 +13,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-top">
-            <h1>Borisov GPT</h1>
-            <a class="telegram-btn" href="https://t.me/borisovtrainings" target="_blank">
-                <img src="/images/telegram-icon.svg" alt="Telegram" class="telegram-icon">
-                Мой Telegram-канал
-            </a>
+            <h1>My GPT</h1>
 
             <!-- Chat list -->
             <div class="chat-list-wrapper">
@@ -41,19 +37,18 @@
         <div class="sidebar-bottom">
             <form action="/chat/new" method="post" class="new-chat-form">
                 <input type="text" name="title" placeholder="Название нового чата" required/>
-                <button type="submit" class="new-chat">💥 BOOM! Новый чат</button>
+                <button type="submit" class="new-chat">💥 Новый чат</button>
             </form>
         </div>
     </aside>
 
     <!-- Chat main section -->
     <main class="chat-main">
-
         <div class="messages" id="messages">
             <th:block th:if="${chat != null}">
                 <div th:if="${!#lists.isEmpty(chat.history)}" th:each="entry : ${chat.history}"
-                     th:class="${entry.role.name == 'user'} ? 'message user' : 'message mentor'"><img
-                        th:src="${entry.role.name == 'user'} ? '/images/user.png' : '/images/mentor.png'" alt="avatar">
+                     th:class="${entry.role.name == 'USER'} ? 'message user' : 'message mentor'"><img
+                        th:src="${entry.role.name == 'USER'} ? '/images/user.png' : '/images/mentor.png'" alt="avatar">
                     <div class="bubble" th:text="${entry.content}"></div>
                 </div>
             </th:block>
@@ -64,7 +59,7 @@
                 <div class="input-bubble">
                     <label for="chat-input" class="sr-only">Спрашивай</label>
                     <textarea id="chat-input" name="prompt" placeholder="Спрашивай..." required></textarea>
-                    <button type="button" id="send-button">SEND</button>
+                    <button type="submit" id="send-button">SEND</button>
                 </div>
             </form>
         </div>

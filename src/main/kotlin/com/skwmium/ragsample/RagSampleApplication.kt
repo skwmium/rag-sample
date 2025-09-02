@@ -14,11 +14,5 @@ class RagSampleApplication {
 }
 
 fun main(args: Array<String>) {
-    val context = runApplication<RagSampleApplication>(*args)
-    val chatClient = context.getBean(ChatClient::class.java)
-    val response = chatClient.prompt()
-        .user("Дай первую строчку богемской рапсодии")
-        .call()
-        .content()
-    println(response)
+    runApplication<RagSampleApplication>(*args)
 }
