@@ -3,3 +3,7 @@ databaseChangeLog:
       file: db/changelog/0010-create-chats-table.sql
   - include:
       file: db/changelog/0020-create-chat-entries-table.sql
+  - include:
+      file: db/changelog/0030-create-loaded-documents-table.sql
+  - include:
+      file: db/changelog/0040-create-vector-store.sql

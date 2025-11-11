@@ -5,9 +5,11 @@ import com.skwmium.ragsample.entity.ChatEntryEntity
 import com.skwmium.ragsample.model.Role
 import com.skwmium.ragsample.repository.ChatRepository
 import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.model.ChatResponse
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction.DESC
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 
@@ -22,7 +24,7 @@ class ChatService(
     }
 
     fun getChat(chatId: Long): ChatEntity? {
-        return chatRepository.getReferenceById(chatId)
+        return chatRepository.findByIdOrNull(chatId)
     }
 
     fun createChat(title: String): ChatEntity {
@@ -47,19 +49,17 @@ class ChatService(
 
 
     fun proceedInteractionWithStreaming(chatId: Long, prompt: String): SseEmitter {
-        addChatEntry(chatId, prompt, Role.USER)
-
         val answer = StringBuilder()
         val sseEmitter = SseEmitter(0L)
 
-        chatClient.prompt()
-            .user(prompt)
+        chatClient.prompt(prompt)
+            .advisors { it.param(ChatMemory.CONVERSATION_ID, chatId) }
             .stream()
             .chatResponse()
             .subscribe(
                 { processEntry(it, sseEmitter, answer) },
                 sseEmitter::completeWithError,
-                { addChatEntry(chatId, answer.toString(), Role.ASSISTANT) },
+                sseEmitter::complete,
             )
         return sseEmitter
     }
@@ -75,7 +75,8 @@ class ChatService(
             content = prompt,
             role = role,
         )
-        chatRepository.getReferenceById(chatId)
+        chatRepository.findById(chatId)
+            .orElseThrow()
             .apply { addEntry(entryEntity) }
             .also { chatRepository.save(it) }
 

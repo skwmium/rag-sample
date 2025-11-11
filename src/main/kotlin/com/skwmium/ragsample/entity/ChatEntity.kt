@@ -19,9 +19,13 @@ class ChatEntity(
     @Column(name = "title")
     val title: String,
 
-    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val history: MutableList<ChatEntryEntity> = mutableListOf(),
 ) {
+    fun addEntries(chatEntryEntities: List<ChatEntryEntity>) {
+        chatEntryEntities.forEach(::addEntry)
+    }
+
     fun addEntry(chatEntryEntity: ChatEntryEntity) {
         chatEntryEntity.chat = this
         history.add(chatEntryEntity)
