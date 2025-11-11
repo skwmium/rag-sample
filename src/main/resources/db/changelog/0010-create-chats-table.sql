@@ -12,4 +12,4 @@ ALTER SEQUENCE chats_pkey_sequence OWNED BY chats.id;
 ALTER TABLE chats
     ALTER COLUMN id SET DEFAULT nextval('chats_pkey_sequence');
 
-CREATE INDEX IF NOT EXISTS idx_chats_created_at ON chats(created_at);
+CREATE INDEX IF NOT EXISTS idx_chats_created_at ON chats (created_at);
