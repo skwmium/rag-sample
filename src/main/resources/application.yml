@@ -7,12 +7,16 @@ spring:
       base-url: http://localhost:11431
       chat:
         model: gemma3:4b-it-q4_K_M
+      embedding:
+        model: mxbai-embed-large
     vectorstore:
       pgvector:
         initialize-schema: false
+        schema-validation: true
         table-name: vector_store
         dimensions: 1024
-
+        index-type: hnsw
+        id-type: uuid
 
   liquibase:
     enabled: true
