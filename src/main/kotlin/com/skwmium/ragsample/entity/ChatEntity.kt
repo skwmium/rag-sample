@@ -19,6 +19,7 @@ class ChatEntity(
     @Column(name = "title")
     val title: String,
 
+    @OrderBy("createdAt ASC")
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val history: MutableList<ChatEntryEntity> = mutableListOf(),
 ) {
