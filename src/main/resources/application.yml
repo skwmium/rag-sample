@@ -30,3 +30,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: debug
+
+app:
+  advisors:
+    history:
+      enabled: true
+      max-messages: 5
+    rag:
+      enabled: true

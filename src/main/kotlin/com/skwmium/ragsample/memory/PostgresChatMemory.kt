@@ -7,6 +7,7 @@ import com.skwmium.ragsample.repository.ChatEntryRepository
 import com.skwmium.ragsample.repository.ChatRepository
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.messages.Message
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,9 +18,8 @@ class PostgresChatMemory(
     private val chanEntryRepository: ChatEntryRepository,
     private val chatEntryEntityToMessageMapper: ChatEntryEntityToMessageMapper,
     private val messageToChatEntryEntityMapper: MessageToChatEntryEntityMapper,
+    @param:Value($$"${app.advisors.history.max-messages}") private val maxMessages: Int,
 ) : ChatMemory {
-
-    private val maxMessages: Int = 12
 
     @Transactional
     override fun add(conversationId: String, messages: List<Message>) {
