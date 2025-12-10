@@ -37,6 +37,8 @@ logging:
 
 app:
   advisors:
+    expansion:
+      enabled: true
     history:
       enabled: true
       max-messages: 5

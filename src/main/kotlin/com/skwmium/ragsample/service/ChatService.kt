@@ -7,6 +7,7 @@ import com.skwmium.ragsample.repository.ChatRepository
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.model.ChatResponse
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction.DESC
 import org.springframework.data.repository.findByIdOrNull
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 @Service
 class ChatService(
     private val chatRepository: ChatRepository,
-    private val chatClient: ChatClient,
+    @param:Qualifier("chatClient") private val chatClient: ChatClient,
 ) {
 
     fun getAllChats(): List<ChatEntity> {
@@ -46,7 +47,6 @@ class ChatService(
             ?: "Empty answer"
         addChatEntry(chatId, answer, Role.ASSISTANT)
     }
-
 
     fun proceedInteractionWithStreaming(chatId: Long, prompt: String): SseEmitter {
         val answer = StringBuilder()
