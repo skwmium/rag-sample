@@ -28,7 +28,7 @@ class DocumentLoaderService(
     )
 
     override fun run(args: ApplicationArguments) {
-        loadLocalDocuments(locationPattern = "classpath:/knowledgebase/**/*.txt", chunkSize = 500)
+        loadLocalDocuments(locationPattern = "classpath:/knowledgebase/**/*.txt", chunkSize = 200)
     }
 
     private fun loadLocalDocuments(locationPattern: String, chunkSize: Int) {
